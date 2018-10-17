@@ -54,7 +54,7 @@ def prepate_answer(self, conversation, disconnect_after=True):
     # Set it not writing
     stop_typing(self, conversation)
     #time.sleep(random.uniform(0.1, 0.3))
-    
+
     if disconnect_after:
         disconnect(self)
 
@@ -119,8 +119,8 @@ def decode_string(message):
         return message
     except:
         return message.decode('utf-8','ignore').encode("utf-8")
-        
-        
+
+
 """
 Sends text message to conversation:
 @signals.command_received.connect
@@ -130,11 +130,11 @@ def handle(message):
 """
 def send_message(str_message, conversation, disconnect_after=True):
     message = decode_string(str_message)
-    
+
     # Prepare mac to answer (Human behavior)
     prepate_answer(entity, conversation, disconnect_after)
     entity.toLower(helper.make_message(message, conversation))
-    
+
 
 """
 Sends text message to phone number:
@@ -143,14 +143,14 @@ mac.send_message_to("Hello", "5218114140740")
 def send_message_to(str_message, phone_number, disconnect_after=True):
     jid = Jid.normalize(phone_number)
     send_message(str_message, jid)
-    
-    
+
+
 def send_image(path, conversation, caption=None):
     if os.path.isfile(path):
         media_send(entity, conversation, path, RequestUploadIqProtocolEntity.MEDIA_TYPE_IMAGE, caption)
     else:
         print("Image doesn't exists")
-        
+
 
 def send_image_to(path, phone_number, caption=None):
     jid = Jid.normalize(phone_number)
@@ -162,12 +162,12 @@ def send_video(path, conversation, caption=None):
         media_send(entity, conversation, path, RequestUploadIqProtocolEntity.MEDIA_TYPE_VIDEO)
     else:
         print("Video doesn't exists")
-        
-        
+
+
 def send_video_to(path, phone_number, caption=None):
     jid = Jid.normalize(phone_number)
     send_video(path, jid, caption)
-    
+
 
 """
 Still not supported
@@ -177,7 +177,7 @@ def send_audio(path, conversation):
         media_send(entity, conversation, path, RequestUploadIqProtocolEntity.MEDIA_TYPE_AUDIO)
     else:
         print("File doesn't exists")
-        
+
 
 def send_audio_to(path, phone_number):
     jid = Jid.normalize(phone_number)
@@ -195,16 +195,16 @@ def media_send(self, jid, path, media_type, caption=None):
 
 def contact_picture(conversation, success_fn=None, preview=False):
     iq = GetPictureIqProtocolEntity(conversation, preview=preview)
-    
+
     def got_picture(result_picture, picture_protocol_entity):
         path = "app/assets/profiles/%s_%s.jpg" % (picture_protocol_entity.getTo(), "preview" if result_picture.isPreview() else "full")
         os.makedirs(os.path.dirname(path), exist_ok=True)
         result_picture.writeToFile(path)
         if success_fn:
             success_fn(picture_protocol_entity.getTo(), path)
-    
+
     entity._sendIq(iq, got_picture)
-    
+
 
 def contact_picture_from(number, success_fn=None, preview=False):
     jid = Jid.normalize(number)
@@ -219,8 +219,8 @@ def set_profile_picture(path, success=None, error=None):
 def set_group_picture(path, group_jid, success=None, error=None):
     picture, preview = make_picture_and_preview(path)
     entity._sendIq(SetPictureIqProtocolEntity(group_jid, preview, picture), success, error)
-        
-        
+
+
 def make_picture_and_preview(path):
     with PILOptionalModule(failMessage = "No PIL library installed, try install pillow") as imp:
         Image = imp("Image")
@@ -228,21 +228,21 @@ def make_picture_and_preview(path):
         picture = src.resize((640, 640)).tobytes("jpeg", "RGB")
         preview = src.resize((96, 96)).tobytes("jpeg", "RGB")
         return picture, preview
-                
+
 
 def contact_status(jids, fn=None):
     def success(result, original):
         if (fn):
             fn(result.statuses)
-            
+
     if isinstance(jids, list):
         iq = GetStatusesIqProtocolEntity(jids)
         entity._sendIq(iq, success)
     else:
         iq = GetStatusesIqProtocolEntity([jids])
         entity._sendIq(iq, success)
-        
-        
+
+
 def contact_status_from(number, fn=None):
     jid = Jid.normalize(number)
     contact_status(jid, fn)
@@ -274,8 +274,7 @@ def on_request_upload_result(self, jid, media_type, file_path, result_request_up
                                        on_upload_progress(self,
                                                           file_path,
                                                           jid,
-                                                          result_request_upload_entity.getResumeOffset()),
-                                       async=True)
+                                                          result_request_upload_entity.getResumeOffset()),  asyncc=True)
         media_uploader.start()
 
 
@@ -305,4 +304,3 @@ def on_upload_progress(self, filePath, jid, progress):
     return
     #sys.stdout.write("%s => %s, %d%% \r" % (os.path.basename(filePath), jid, progress))
     #sys.stdout.flush()
-

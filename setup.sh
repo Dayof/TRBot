@@ -5,10 +5,10 @@ NC='\033[0m' # No Color
 
 install_requirements() {
     module_requirements="$1"
-    
+
     #printf "pip3 -qqq install -r $module_requirements"
-    pip3 -qqq install -r $module_requirements
-    
+    pip install -r $module_requirements
+
     return_code=$?
     if [ $return_code != 0 ]; then
         printf "${RED}Error:[%d]. Try running it with root privilages\n" $return_code
@@ -20,10 +20,10 @@ install_forked_yowsup() {
     printf "Installing ${ORANGE}yowsup libraries${NC}\n"
     printf "${NC}--------------------------\n"
     cd libs/python-axolotl
-    python3 setup.py -qqq install
+    python setup.py install
     wait
     cd ../yowsup
-    python3 setup.py -qqq install
+    python setup.py install
     wait
     printf "${NC}--------------------------\n"
     # Return to root
@@ -40,15 +40,15 @@ install_modules() {
                 printf "[${CYAN}${D}${NC}] Installing dependencies...\n"
                 module_requirements="${D}/requirements.txt"
                 install_requirements "$module_requirements"
-            else 
+            else
                 printf "[${CYAN}${D}${NC}] All good...\n"
             fi
         fi
     done
     wait
-    
+
     printf "${NC}--------------------------\n"
-    
+
     # Return to root
     cd ../
 }
@@ -57,7 +57,7 @@ install_app_dependencies() {
     printf "Configuring framework\n"
     printf "${NC}--------------------------\n"
     printf "[${CYAN}mac${NC}] Installing dependencies...\n"
-    
+
     app_requirements="app/requirements.txt"
     install_requirements "$app_requirements"
     wait

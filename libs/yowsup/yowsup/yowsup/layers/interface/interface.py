@@ -125,7 +125,7 @@ class YowInterfaceLayer(YowLayer):
             mediaUploader = MediaUploader(builder.jid, self.getOwnJid(), builder.getFilepath(),
                                       resultRequestUploadIqProtocolEntity.getUrl(),
                                       resultRequestUploadIqProtocolEntity.getResumeOffset(),
-                                      successFn, errorFn, progress, async=True)
+                                      successFn, errorFn, progress, asyncc=True)
             mediaUploader.start()
 
     def __onRequestUploadError(self, errorEntity, requestUploadEntity, builder, error = None):

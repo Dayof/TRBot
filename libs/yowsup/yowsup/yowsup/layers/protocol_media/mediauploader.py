@@ -16,10 +16,10 @@ from .protocolentities.message_media_downloadable import DownloadableMediaMessag
 logger = logging.getLogger(__name__)
 
 class MediaUploader(WARequest, threading.Thread):
-    def __init__(self, jid, accountJid, sourcePath, uploadUrl, resumeOffset = 0, successClbk = None, errorClbk = None, progressCallback = None, async = True):
+    def __init__(self, jid, accountJid, sourcePath, uploadUrl, resumeOffset = 0, successClbk = None, errorClbk = None, progressCallback = None, asyncc = True):
         WARequest.__init__(self)
 
-        self.async = async
+        self.asyncc = asyncc
         self.jid = jid
         self.accountJid = accountJid
         self.sourcePath = sourcePath
@@ -37,7 +37,7 @@ class MediaUploader(WARequest, threading.Thread):
         self.sock = socket.socket()
 
     def start(self):
-        if self.async:
+        if self.asyncc:
             threading.Thread.__init__(self)
             super(MediaUploader, self).start()
         else:

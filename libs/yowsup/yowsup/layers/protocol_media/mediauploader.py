@@ -12,14 +12,14 @@ from Crypto.Cipher import AES
 from axolotl.kdf.hkdfv3 import HKDFv3
 from axolotl.sessioncipher import pad
 from axolotl.util.byteutil import ByteUtil
-from .protocolentities.message_media_downloadable import DownloadableMediaMessageProtocolEntity 
+from .protocolentities.message_media_downloadable import DownloadableMediaMessageProtocolEntity
 logger = logging.getLogger(__name__)
 
 class MediaUploader(WARequest, threading.Thread):
-    def __init__(self, jid, accountJid, sourcePath, uploadUrl, resumeOffset = 0, successClbk = None, errorClbk = None, progressCallback = None, async = True):
+    def __init__(self, jid, accountJid, sourcePath, uploadUrl, resumeOffset = 0, successClbk = None, errorClbk = None, progressCallback = None, asyncc = True):
         WARequest.__init__(self)
 
-        self.async = async
+        self.asyncc = asynccc
         self.jid = jid
         self.accountJid = accountJid
         self.sourcePath = sourcePath
@@ -37,7 +37,7 @@ class MediaUploader(WARequest, threading.Thread):
         self.sock = socket.socket()
 
     def start(self):
-        if self.async:
+        if self.asyncc:
             threading.Thread.__init__(self)
             super(MediaUploader, self).start()
         else:
@@ -57,7 +57,7 @@ class MediaUploader(WARequest, threading.Thread):
         elif "audio" in filetype:
             return DownloadableMediaMessageProtocolEntity.AUDIO_KEY
         raise Exception ("FILE TYPE NOT SUPPORTED")
-        
+
 
     def encryptMedia(self, img, refkey,filetype):
         key = self.getKey(filetype)

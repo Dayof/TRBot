@@ -11,14 +11,17 @@ def get_who_send(message_entity):
     who = message_entity.getFrom()
     if message_entity.isGroupMessage():
         who = message_entity.getParticipant()
-        
+
     return who
-    
-    
+
+
 def sender_name(message_entity):
     name = message_entity.getNotify()
-    name = name.encode('latin-1')
-    name = name.decode('utf-8')
+    if name:
+        name = name.encode('latin-1')
+        name = name.decode('utf-8')
+    else:
+        print('No name found.')
     return name
 
 
@@ -90,7 +93,7 @@ def log_txt(message_entity):
     message = message.strip()
     message = ''.join(filter(lambda x: x in string.printable, message))
     message = message.strip()
-    
+
     dirty = message_entity.getBody().strip()
 
     # Warn
@@ -105,14 +108,14 @@ def log_txt(message_entity):
         "\n" + "Clean msg:" + "\n" + message + "\n" +
         "------------------------" + "\n" + "\n")
     file.close()
-    
+
 
 """
 Deep print
 """
 def log(message_entity):
     pprint(vars(message_entity))
-    
+
 
 """
 Returns predicate of the message
@@ -148,7 +151,7 @@ Converts a list into a comma separated string
 """
 def nice_list(list):
     return "[" + ", ".join( str(x) for x in list) + "]"
-    
+
 
 """
 Retrieves the command from the message.
@@ -160,20 +163,19 @@ def command(message_entity):
         command = message(message_entity).split(' ', 1)[0]
     except IndexError:
         print("Command error")
-    
+
     return command
-    
-    
+
+
 """
 Retrieves the predicate from the message.
 predicate is what goes after the command
-"""     
+"""
 def predicate(message_entity):
     rest = ""
     try:
         rest = message(message_entity).split(' ', 1)[1]
     except IndexError:
         pass
-    
+
     return rest
-    

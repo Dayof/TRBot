@@ -9,7 +9,7 @@ from yowsup.layers.network import YowNetworkLayer
 from app.layer import MacLayer
 
 # Uncomment to log
-#logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 # Config
 credentials = (config.credentials['phone'], config.credentials['password'])
@@ -41,7 +41,7 @@ class MacStack(object):
         except KeyboardInterrupt:
             print("\nYowsdown")
             sys.exit(0)
-            
+
 def run_infinite():
     while True:
         try:

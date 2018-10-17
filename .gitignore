@@ -19,3 +19,6 @@ modules/broadcast/*
 modules/wolfram/*
 modules/yesno/*
 modules/elo/*
+
+venv/
+config.py
